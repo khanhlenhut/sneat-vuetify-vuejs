@@ -19,7 +19,12 @@ export const useAuthStore = defineStore("auth", {
         return false;
       }
     },
-
+    updateTokens(accessToken: string, refreshToken: string) {
+      if (this.user) {
+        this.user.accessToken = accessToken;
+        this.user.refreshToken = refreshToken;
+      }
+    },
     logout() {
       this.loggedIn = false;
       this.user = null;

@@ -1,5 +1,6 @@
 <template>
-  <a
+  <h1></h1>
+  <!-- <a
     color="error"
     class="buy-now-button"
     href="https://themeselection.com/item/sneat-vuetify-vuejs-admin-template/"
@@ -45,7 +46,7 @@
         </VCardText>
       </VCard>
     </VMenu>
-  </a>
+  </a> -->
 </template>
 
 <style lang="scss" scoped>
