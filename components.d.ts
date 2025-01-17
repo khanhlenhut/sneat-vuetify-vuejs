@@ -17,6 +17,5 @@ declare module 'vue' {
     ThemeSwitcher: typeof import('./src/@core/components/ThemeSwitcher.vue')['default']
     UpgradeToPro: typeof import('./src/components/UpgradeToPro.vue')['default']
     VueApexCharts: typeof import('vue3-apexcharts')['default']
-    YourComponent: typeof import('./src/components/YourComponent.vue')['default']
   }
 }
