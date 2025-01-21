@@ -2,26 +2,31 @@ import { useAuthStore } from "@/stores/auth.module";
 import { useLoaderStore } from "@/stores/loader.module";
 import axios from "axios";
 
+// Tạo instance của axios
 const instance = axios.create({
   baseURL: "https://dummyjson.com/",
 });
 
+// Utility functions for loader
+const showLoader = () => useLoaderStore().showLoading();
+const hideLoader = () => useLoaderStore().hideLoading();
+
 // Add a request interceptor
 instance.interceptors.request.use(
   (config) => {
-    const loadingStore = useLoaderStore();
-    loadingStore.showLoading();
+    showLoader();
 
     const authStore = useAuthStore();
     const accessToken = authStore.getUser?.accessToken;
+
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
     return config;
   },
   (error) => {
-    const loadingStore = useLoaderStore();
-    loadingStore.hideLoading();
+    hideLoader();
     return Promise.reject(error);
   }
 );
@@ -29,52 +34,51 @@ instance.interceptors.request.use(
 // Add a response interceptor
 instance.interceptors.response.use(
   (response) => {
-    const loadingStore = useLoaderStore();
-    loadingStore.hideLoading();
+    hideLoader();
     return response;
   },
   async (error) => {
-    const originalRequest = await error.config;
-
+    hideLoader();
     const authStore = useAuthStore();
+    const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
         const refreshToken = authStore.getUser?.refreshToken;
+
         if (refreshToken) {
+          // Yêu cầu làm mới token
           const response = await instance.post("auth/refresh", {
             refreshToken: refreshToken,
             expiresInMins: 30,
           });
 
+          // Cập nhật token mới vào store
           authStore.updateTokens(
             response.data.accessToken,
             response.data.refreshToken
           );
 
-          console.log("Làm mới token thành công");
-          // Cập nhật token cho request ban đầu
+          console.log("Token refreshed successfully");
+
+          // Cập nhật token vào request ban đầu
           originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
 
-          // Gửi lại request ban đầu
+          // Thực hiện lại request ban đầu
           return instance(originalRequest);
         }
       } catch (refreshError) {
-        // Xử lý lỗi làm mới token (ví dụ: đăng xuất người dùng)
-        console.error("Không thể làm mới token:", refreshError);
+        console.error("Token refresh failed:", refreshError);
 
+        // Thực hiện đăng xuất người dùng khi không thể làm mới token
         authStore.logout();
-        const loadingStore = useLoaderStore();
-        loadingStore.hideLoading();
         return Promise.reject(refreshError);
       }
-
-      const loadingStore = useLoaderStore();
-      loadingStore.hideLoading();
-      return Promise.reject(error);
     }
+
+    return Promise.reject(error);
   }
 );
 

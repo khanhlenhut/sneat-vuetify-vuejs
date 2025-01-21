@@ -10,6 +10,16 @@ export const routes = [
         meta: { requiresAuth: true, role: "admin" },
       },
       {
+        path: "transactions",
+        component: () => import("@/pages/transactions.vue"),
+        meta: { requiresAuth: true, role: "admin" },
+      },
+      {
+        path: "products",
+        component: () => import("@/pages/products.vue"),
+        meta: { requiresAuth: true, role: "admin" },
+      },
+      {
         path: "account-settings",
         component: () => import("@/pages/account-settings.vue"),
         meta: { requiresAuth: true, role: "admin" },

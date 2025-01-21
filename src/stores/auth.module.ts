@@ -11,8 +11,12 @@ export const useAuthStore = defineStore("auth", {
     async login(credentials: LoginCredentials) {
       try {
         const response = await AuthService.login(credentials);
-        this.loggedIn = true;
         this.user = response;
+        this.loggedIn = true;
+
+        // Lưu trữ thông tin đăng nhập vào localStorage
+        localStorage.setItem("user", JSON.stringify(response));
+        localStorage.setItem("loggedIn", "true");
 
         return true;
       } catch (error) {
@@ -23,11 +27,33 @@ export const useAuthStore = defineStore("auth", {
       if (this.user) {
         this.user.accessToken = accessToken;
         this.user.refreshToken = refreshToken;
+
+        // Cập nhật token trong localStorage
+        localStorage.setItem("user", JSON.stringify(this.user));
       }
     },
     logout() {
       this.loggedIn = false;
       this.user = null;
+
+      // Xóa thông tin đăng nhập khỏi localStorage
+      localStorage.removeItem("user");
+      localStorage.removeItem("loggedIn");
+    },
+    restoreAuthState() {
+      const user = localStorage.getItem("user");
+      const loggedIn = localStorage.getItem("loggedIn");
+
+      if (user && loggedIn === "true") {
+        this.user = JSON.parse(user);
+        this.loggedIn = true;
+      }
+    },
+    saveAuthState() {
+      if (this.user && this.loggedIn) {
+        localStorage.setItem("user", JSON.stringify(this.user));
+        localStorage.setItem("loggedIn", "true");
+      }
     },
   },
   getters: {
@@ -38,4 +64,10 @@ export const useAuthStore = defineStore("auth", {
       return this.user;
     },
   },
+});
+
+// Khôi phục trạng thái đăng nhập khi ứng dụng được tải lại
+onBeforeMount(() => {
+  const authStore = useAuthStore();
+  authStore.restoreAuthState();
 });

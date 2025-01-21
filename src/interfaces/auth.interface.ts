@@ -15,6 +15,25 @@ export interface AuthResponse {
   image: string;
 }
 
+export interface Product {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  sku: string;
+  price: number;
+  stock: number;
+  availabilityStatus: string;
+  thumbnail: string;
+}
+
+export interface PaginatedResponse<T> {
+  products: T[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
 export interface User {
   id: number;
   firstName: string;

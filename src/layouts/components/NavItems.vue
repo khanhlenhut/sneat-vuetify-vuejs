@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
-import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
-import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
+import VerticalNavSectionTitle from "@/@layouts/components/VerticalNavSectionTitle.vue";
+import VerticalNavGroup from "@layouts/components/VerticalNavGroup.vue";
+import VerticalNavLink from "@layouts/components/VerticalNavLink.vue"; /* PartiallyEnd: #3632/scriptSetup.vue */
 </script>
 
 <template>
@@ -18,6 +18,18 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       :item="{
         title: 'Analytics',
         to: '/dashboard',
+      }"
+    />
+    <VerticalNavLink
+      :item="{
+        title: 'Transactions',
+        to: '/transactions',
+      }"
+    />
+    <VerticalNavLink
+      :item="{
+        title: 'Products',
+        to: '/products',
       }"
     />
     <VerticalNavLink

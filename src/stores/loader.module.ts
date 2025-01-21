@@ -7,9 +7,11 @@ export const useLoaderStore = defineStore("loading", {
   actions: {
     showLoading() {
       this.isLoading = true;
+      console.log("Show loading: ", this.isLoading);
     },
     hideLoading() {
       this.isLoading = false;
+      console.log("Show loading: ", this.isLoading);
     },
   },
   getters: {
