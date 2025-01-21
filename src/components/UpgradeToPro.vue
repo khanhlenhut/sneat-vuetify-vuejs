@@ -1,4 +1,5 @@
 <template>
+  <h1></h1>
   <a
     color="error"
     class="buy-now-button"
@@ -19,10 +20,13 @@
       transition="slide-y-reverse-transition"
     >
       <VCard>
-        <VImg src="https://cdn.themeselection.com/ts-assets/sneat/sneat-vuetify-vuejs-admin-template-free/banner/banner.png" />
+        <VImg
+          src="https://cdn.themeselection.com/ts-assets/sneat/sneat-vuetify-vuejs-admin-template-free/banner/banner.png"
+        />
         <VCardTitle>Sneat - Vuetify Admin Template</VCardTitle>
         <VCardText>
-          Sneat Admin is the most developer friendly & highly customisable Admin Dashboard Template based on Vuetify.
+          Sneat Admin is the most developer friendly & highly customisable Admin
+          Dashboard Template based on Vuetify.
         </VCardText>
         <VCardText>Click on below button to explore PRO version.</VCardText>
         <VCardText>
@@ -60,7 +64,14 @@
   margin: 0;
   animation: anime 12s linear infinite;
   appearance: none;
-  background: linear-gradient(-45deg, #ffa63d, #ff3d77, #338aff, #3cf0c5);
+  background: linear-gradient(
+    -45deg,
+    #ffffff00,
+    #ffffff00,
+    #ffffff00,
+    #ffffff00
+  );
+  // background: linear-gradient(-45deg, #ffa63d, #ff3d77, #338aff, #3cf0c5);
   background-size: 600%;
   color: rgba(255, 255, 255, 90%);
   cursor: pointer;
